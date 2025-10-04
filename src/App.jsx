@@ -12,10 +12,17 @@ function App() {
   return (
     <>
       <div className="app-root">
-        <header className="app-header">
-          <h1>Find Nearby Cafes</h1>
-          <p>Allow location access to see cafes near you.</p>
-        </header>
+        <AppBar position="sticky" color="primary">
+          <Toolbar sx={{ display: "flex", gap: 1 }}>
+            <LocalCafeIcon sx={{ mr: 1 }} />
+            <Typography variant="h6" component="div">
+              Find Nearby Cafes
+            </Typography>
+            <Typography variant="body2" sx={{ opacity: 0.5, flexGrow: 1 }}>
+              Allow location access to see cafes near you.
+            </Typography>
+          </Toolbar>
+        </AppBar>
         <main className="app-main">
          <CafeMarkers/>
         </main>

@@ -6,6 +6,8 @@ import RecenterMap from './RecenterMap';
 import FlyToCafe from './FlyToCafe';
 import CafeList from './CafeList';
 
+import { Box, CircularProgress, Typography, Paper } from "@mui/material"
+
 const userIcon = new L.Icon({
   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
@@ -44,18 +46,37 @@ export const CafeMarkers = () => {
   }, [])
 
   if (!userPosition) {
-    return <p>Locating you...</p>;
+    return (
+      <Paper
+        elevation={0}
+        sx={{
+          height: "60vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 2,
+        }}
+      >
+        <Box sx={{ textAlign: "center" }}>
+          <CircularProgress color="primary" />
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+            Locating you...
+          </Typography>
+        </Box>
+      </Paper>
+    )
   }
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <Box sx={{ display: "flex", minHeight: "70vh" }}>
       {/* Sidebar with cafe list */}
       <CafeList cafes={cafes} onSelectCafe={setSelectedCafe} />
 
       {/* Map */}
+      <Box sx={{ flex: 1 }}>
       <MapContainer
         center={userPosition}
         zoom={12}
-        style={{ height: "600px", width: "100%" }}
+        style={{ height: "140vh", width: "100%", borderRadius: 8, overflow: "hidden" }}
         scrollWheelZoom={true}
       >
         <TileLayer
@@ -80,12 +101,11 @@ export const CafeMarkers = () => {
 
         <RecenterMap latlng={userPosition} />
         
-        {/* 🔹 Fly to selected cafe */}
+        {/* Fly to selected cafe */}
         <FlyToCafe cafe={selectedCafe}/>
       </MapContainer>
-
-
-    </div>
+      </Box>
+    </Box>
   )
 }
 export default CafeMarkers
